@@ -30,15 +30,15 @@ export function SobreSection() {
           <div className="sobre-visual reveal">
             <div className="sobre-img-wrap">
               <Image
-                src="/obras/obra6.jpg"
-                alt="Casa ARCA em Campos do Jordão"
+                src="/obras/sobre-foto.png"
+                alt="Residência ARCA de alto padrão"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="sobre-img"
+                priority={false}
               />
             </div>
             <div className="sobre-accent-box" />
-            {/* Plaquinha flutuante */}
             <div className="sobre-float-card">
               <p className="sfc-num">2003</p>
               <p className="sfc-label">Fundação da ARCA</p>

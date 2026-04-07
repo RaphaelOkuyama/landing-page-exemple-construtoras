@@ -7,7 +7,6 @@ export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const frameRef = useRef<number | null>(null);
-  const dirRef = useRef<1 | -1>(1);
   const [isMobile, setIsMobile] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
 
@@ -48,9 +47,6 @@ export function HeroSection() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Velocidade: avança ~1/60s por frame (60fps)
-    const SPEED = 1 / 60;
-
     const drawFrame = () => {
       if (video.readyState < 2) {
         frameRef.current = requestAnimationFrame(drawFrame);
@@ -86,20 +82,14 @@ export function HeroSection() {
         dh,
       );
 
-      // Avança/recua tempo
-      const next = video.currentTime + SPEED * dirRef.current;
-      video.currentTime = Math.max(0, Math.min(video.duration || 0, next));
-
-      if (video.currentTime >= (video.duration || 0) - 0.05)
-        dirRef.current = -1;
-      else if (video.currentTime <= 0.05) dirRef.current = 1;
-
+      // Como o vídeo já tem o ping-pong nativo, apenas copiamos o frame contínuo.
       frameRef.current = requestAnimationFrame(drawFrame);
     };
 
     const start = () => {
       setVideoReady(true);
-      video.pause();
+      // Ao invés de pausar e controlar na mão, deixamos ele tocar naturalmente em loop
+      video.play().catch(() => {});
       drawFrame();
     };
 
@@ -121,6 +111,8 @@ export function HeroSection() {
           <video
             ref={videoRef}
             src="/hero-drone.mp4"
+            autoPlay
+            loop
             muted
             playsInline
             preload="metadata"

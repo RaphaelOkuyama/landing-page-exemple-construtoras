@@ -43,11 +43,15 @@ export function FaqSection() {
             obs.unobserve(e.target);
           }
         }),
-      { threshold: 0.1 },
+      { threshold: 0.08 },
     );
     els.forEach((el) => obs.observe(el));
     return () => obs.disconnect();
   }, []);
+
+  const toggle = (i: number) => {
+    setOpen((prev) => (prev === i ? null : i));
+  };
 
   return (
     <section id="faq" ref={sectionRef} className="faq-section">
@@ -63,32 +67,48 @@ export function FaqSection() {
               todo dia.
             </h2>
             <p className="faq-sub">
-              Não encontrou o que procura?
-              <br />
+              Não encontrou o que procura?{" "}
               <a href="#contato" className="faq-link">
                 Fale com nossa equipe →
               </a>
             </p>
           </div>
 
-          <div className="faq-list">
-            {FAQS.map((faq, i) => (
-              <div
-                key={i}
-                className={`faq-item reveal${open === i ? " open" : ""}`}
-              >
-                <button
-                  className="faq-question"
-                  onClick={() => setOpen(open === i ? null : i)}
-                >
-                  <span>{faq.q}</span>
-                  <span className="faq-icon">{open === i ? "−" : "+"}</span>
-                </button>
-                <div className="faq-answer">
-                  <p>{faq.a}</p>
+          {/* A MÁGICA FOI AQUI: A classe 'reveal' fica apenas no pai, blindando contra os re-renders do React */}
+          <div className="faq-list reveal">
+            {FAQS.map((faq, i) => {
+              const isOpen = open === i;
+
+              return (
+                <div key={i} className={`faq-item${isOpen ? " open" : ""}`}>
+                  <button
+                    className="faq-question"
+                    onClick={() => toggle(i)}
+                    aria-expanded={isOpen}
+                  >
+                    <span>{faq.q}</span>
+                    <span className="faq-icon" aria-hidden="true">
+                      {isOpen ? "−" : "+"}
+                    </span>
+                  </button>
+
+                  {/* Solução moderna e hiper-leve (CSS Grid) */}
+                  <div
+                    className="faq-answer"
+                    style={{
+                      display: "grid",
+                      gridTemplateRows: isOpen ? "1fr" : "0fr",
+                      transition:
+                        "grid-template-rows 0.38s cubic-bezier(0.4,0,0.2,1)",
+                    }}
+                  >
+                    <div style={{ overflow: "hidden" }}>
+                      <p>{faq.a}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

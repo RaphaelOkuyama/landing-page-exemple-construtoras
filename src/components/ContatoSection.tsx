@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef, useState } from "react";
+// Usamos Input e Textarea nativos com classes customizadas para maior controle
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -12,6 +12,76 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+// ─── O BOTÃO COM FÍSICA PERFEITA (TRATOR) ───
+function SubmitButton() {
+  const [status, setStatus] = useState<"idle" | "pushing" | "success">("idle");
+  // Duração total da animação (2.5 segundos)
+  const animationDuration = 2500;
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (status !== "idle") return;
+
+    // Inicia a animação
+    setStatus("pushing");
+
+    // Espera a animação terminar para mostrar o sucesso
+    setTimeout(() => {
+      setStatus("success");
+      // TODO: Lógica de envio de email (EmailJS/Resend) entrará aqui
+
+      // Após 3 segundos de sucesso, volta ao estado original
+      setTimeout(() => {
+        setStatus("idle");
+      }, 3000);
+    }, animationDuration);
+  };
+
+  return (
+    <button
+      className="btn-submit"
+      onClick={handleClick}
+      disabled={status !== "idle"}
+      // ATRIBUTO CHAVE: Avisa ao CSS qual animação disparar
+      data-status={status}
+    >
+      {/* ─── MENSAGEM DE SUCESSO ─── */}
+      <div className="success-message">MENSAGEM ENVIADA ✓</div>
+
+      {/* ─── O CARRINHO (SEGURA O TRATOR E O TEXTO JUNTOS) ─── */}
+      <div className="push-cart">
+        {/* ÍCONE DO TRATOR */}
+        <div className="tractor">
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M2 12h4l1 5h9l1-3h3l1 3h2" />
+            <path d="M19 17v2" />
+            <path d="M16 11h-4" />
+            <path d="M7 12V8a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3" />
+            <circle cx="8" cy="17" r="2" />
+            <circle cx="16" cy="17" r="2" />
+            <path d="M22 19l-2-6V9" />
+          </svg>
+        </div>
+
+        {/* O TEXTO DO BOTÃO */}
+        <span>
+          {status === "pushing" ? "ENVIANDO..." : "ENVIAR MENSAGEM →"}
+        </span>
+      </div>
+    </button>
+  );
+}
+
+// ─── A SEÇÃO PRINCIPAL DE CONTATO ───
 export function ContatoSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
 
@@ -25,7 +95,7 @@ export function ContatoSection() {
             obs.unobserve(e.target);
           }
         }),
-      { threshold: 0.1 },
+      { threshold: 0.08 },
     );
     els.forEach((el) => obs.observe(el));
     return () => obs.disconnect();
@@ -37,8 +107,8 @@ export function ContatoSection() {
         <div className="contato-layout">
           {/* Esquerda: info */}
           <div className="contato-info reveal">
-            <p className="section-tag">Fale conosco</p>
-            <h2 className="section-title contato-title">
+            <p className="section-tag-light">Fale conosco</p>
+            <h2 className="section-title-light contato-title">
               Cada grande obra
               <br />
               começa com uma
@@ -46,8 +116,7 @@ export function ContatoSection() {
               <em>conversa</em>.
             </h2>
             <p className="contato-desc">
-              Nossa equipe responde em até 24 horas úteis. Para projetos
-              urgentes, ligue diretamente.
+              Nossa equipe responde em até 24 horas úteis.
             </p>
 
             <div className="contato-details">
@@ -115,10 +184,14 @@ export function ContatoSection() {
               <div className="form-group">
                 <label>Tipo de projeto</label>
                 <Select>
-                  <SelectTrigger className="input-custom">
+                  <SelectTrigger className="input-custom select-trigger-custom">
                     <SelectValue placeholder="Selecione" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent
+                    className="select-content-custom"
+                    position="popper"
+                    sideOffset={4}
+                  >
                     <SelectItem value="residencial">
                       Residência unifamiliar
                     </SelectItem>
@@ -140,10 +213,14 @@ export function ContatoSection() {
             <div className="form-group">
               <label>Área estimada</label>
               <Select>
-                <SelectTrigger className="input-custom">
+                <SelectTrigger className="input-custom select-trigger-custom">
                   <SelectValue placeholder="Selecione a área" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent
+                  className="select-content-custom"
+                  position="popper"
+                  sideOffset={4}
+                >
                   <SelectItem value="300">Até 300 m²</SelectItem>
                   <SelectItem value="600">300 – 600 m²</SelectItem>
                   <SelectItem value="1000">600 m² – 1.000 m²</SelectItem>
@@ -156,15 +233,14 @@ export function ContatoSection() {
               <label htmlFor="mensagem">Conte-nos sobre seu projeto</label>
               <Textarea
                 id="mensagem"
-                placeholder="Localização, prazo desejado, inspirações, diferenciais importantes para você..."
+                placeholder="Localização, prazo desejado, inspirações..."
                 className="input-custom"
                 rows={5}
               />
             </div>
 
-            <Button type="submit" className="btn-submit">
-              Enviar mensagem <span>→</span>
-            </Button>
+            {/* Nosso botão animado */}
+            <SubmitButton />
           </form>
         </div>
       </div>

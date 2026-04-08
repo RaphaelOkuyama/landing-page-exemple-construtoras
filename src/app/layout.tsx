@@ -34,8 +34,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${cormorant.variable} ${jost.variable}`}>
-      <body>{children}</body>
+    <html
+      lang="pt-BR"
+      className={`${(cormorant as unknown as { variable: string }).variable} ${(jost as unknown as { variable: string }).variable}`}
+    >
+      <body>
+        {children}
+      </body>
     </html>
   );
 }

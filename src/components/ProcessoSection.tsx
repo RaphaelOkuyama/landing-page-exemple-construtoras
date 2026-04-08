@@ -13,7 +13,7 @@ const STEPS = [
     num: "02",
     phase: "Projeto",
     duration: "4–8 semanas",
-    desc: "Desenvolvimento do anteprojeto arquitetônico, projetos complementares (estrutural, elétrico, hidráulico), aprovações em prefeitura e compatibilização BIM.",
+    desc: "Desenvolvimento do anteprojeto arquitetônico, projetos complementares, aprovações em prefeitura e compatibilização BIM.",
   },
   {
     num: "03",
@@ -54,7 +54,7 @@ export function ProcessoSection() {
             obs.unobserve(e.target);
           }
         }),
-      { threshold: 0.1 },
+      { threshold: 0.08 },
     );
     els.forEach((el) => obs.observe(el));
     return () => obs.disconnect();
@@ -71,24 +71,15 @@ export function ProcessoSection() {
           </h2>
         </div>
 
-        <div className="processo-timeline">
-          {/* Linha conectora */}
-          <div className="timeline-line" />
-
-          {STEPS.map((step, i) => (
-            <div
-              key={step.num}
-              className={`timeline-step reveal${i % 2 === 0 ? " step-top" : " step-bottom"}`}
-            >
-              <div className="step-dot" />
-              <div className="step-card">
-                <div className="step-header">
-                  <span className="step-num">{step.num}</span>
-                  <span className="step-duration">{step.duration}</span>
-                </div>
-                <h3 className="step-phase">{step.phase}</h3>
-                <p className="step-desc">{step.desc}</p>
+        <div className="processo-grid">
+          {STEPS.map((step) => (
+            <div key={step.num} className="step-card reveal">
+              <div className="step-header">
+                <span className="step-num">{step.num}</span>
+                <span className="step-duration">{step.duration}</span>
               </div>
+              <h3 className="step-phase">{step.phase}</h3>
+              <p className="step-desc">{step.desc}</p>
             </div>
           ))}
         </div>

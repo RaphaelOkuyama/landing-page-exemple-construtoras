@@ -79,9 +79,8 @@ export function DepoimentosSection() {
       <div className="section-inner">
         <div className="section-header reveal">
           <p className="section-tag">O que dizem</p>
-          <h2 className="section-title">
-            Clientes que
-            <br />
+          <h2 className="section-title-light">
+            Clientes que <br />
             <em>confiam</em> na ARCA.
           </h2>
         </div>

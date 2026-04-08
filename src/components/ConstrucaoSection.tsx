@@ -168,7 +168,9 @@ export function ConstrucaoSection() {
   }
 
   const pct = Math.round(progress * 100);
+  const isFullyComplete = pct >= 100; // Flag para saber se chegou no final do scroll
   const stage = STAGES[currentStage];
+
   const loadPct = Math.round(
     (loadedCount / (isMobile ? MOBILE_FRAMES : TOTAL_FRAMES)) * 100,
   );
@@ -237,33 +239,43 @@ export function ConstrucaoSection() {
           </p>
 
           <div className="construcao-stages">
-            {STAGES.map((s, i) => (
-              <div
-                key={s.label}
-                className={`cstage${i === currentStage ? " active" : ""}${i < currentStage ? " done" : ""}`}
-              >
-                <div className="cstage-bullet">
-                  {i < currentStage ? (
-                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                      <path
-                        d="M1 4L3.5 6.5L9 1"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  ) : (
-                    <span>{String(i + 1).padStart(2, "0")}</span>
-                  )}
+            {STAGES.map((s, i) => {
+              // Lógica corrigida para marcar como "done"
+              const isDone = isFullyComplete ? true : i < currentStage;
+              const isActive = !isFullyComplete && i === currentStage;
+
+              return (
+                <div
+                  key={s.label}
+                  className={`cstage${isActive ? " active" : ""}${isDone ? " done" : ""}`}
+                >
+                  <div className="cstage-bullet">
+                    {isDone ? (
+                      <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                        <path
+                          d="M1 4L3.5 6.5L9 1"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    ) : (
+                      <span>{String(i + 1).padStart(2, "0")}</span>
+                    )}
+                  </div>
+                  <div>
+                    <p className="cstage-name">{s.label}</p>
+                    {isActive && (
+                      <p className="cstage-pct">{s.pct} concluído</p>
+                    )}
+                    {/* Opcional: mostrar "100% concluído" quando estiver tudo pronto */}
+                    {isFullyComplete && i === STAGES.length - 1 && (
+                      <p className="cstage-pct">100% concluído</p>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <p className="cstage-name">{s.label}</p>
-                  {i === currentStage && (
-                    <p className="cstage-pct">{s.pct} concluído</p>
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="construcao-prog">

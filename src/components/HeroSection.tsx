@@ -11,9 +11,6 @@ export function HeroSection() {
   const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
-    // Usamos o setTimeout (mesmo com 0ms) para jogar a atualização de estado
-    // para o final da fila de execução do navegador.
-    // Isso evita o erro de "Cascading renders" do React.
     const timer = setTimeout(() => {
       setIsMobile(
         window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent),
@@ -23,12 +20,14 @@ export function HeroSection() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Animação de entrada via DOM (sem setState)
+  // Atraso de 100ms para garantir que a animação de entrada funcione sempre
   useEffect(() => {
-    const raf = requestAnimationFrame(() => {
-      bodyRef.current?.classList.add("is-mounted");
-    });
-    return () => cancelAnimationFrame(raf);
+    const timer = setTimeout(() => {
+      if (bodyRef.current) {
+        bodyRef.current.classList.add("is-mounted");
+      }
+    }, 2500); // <-- MUDAMOS DE 100 PARA 2500 AQUI
+    return () => clearTimeout(timer);
   }, []);
 
   // Loop canvas — só em desktop
@@ -58,13 +57,11 @@ export function HeroSection() {
       const W = canvas.width;
       const H = canvas.height;
 
-      // Crop 6% inferior e direito para remover marca d'água
       const cropR = Math.floor(vw * 0.06);
       const cropB = Math.floor(vh * 0.06);
       const srcW = vw - cropR;
       const srcH = vh - cropB;
 
-      // Cover fit
       const scale = Math.max(W / srcW, H / srcH);
       const dw = srcW * scale;
       const dh = srcH * scale;
@@ -82,13 +79,11 @@ export function HeroSection() {
         dh,
       );
 
-      // Como o vídeo já tem o ping-pong nativo, apenas copiamos o frame contínuo.
       frameRef.current = requestAnimationFrame(drawFrame);
     };
 
     const start = () => {
       setVideoReady(true);
-      // Ao invés de pausar e controlar na mão, deixamos ele tocar naturalmente em loop
       video.play().catch(() => {});
       drawFrame();
     };
@@ -105,7 +100,6 @@ export function HeroSection() {
 
   return (
     <section id="hero" className="hero-section">
-      {/* Desktop: canvas controlado */}
       {!isMobile && (
         <>
           <video
@@ -121,14 +115,26 @@ export function HeroSection() {
           <canvas
             ref={canvasRef}
             className="hero-canvas"
-            style={{ opacity: videoReady ? 1 : 0, transition: "opacity 0.8s" }}
+            style={{
+              opacity: videoReady ? 1 : 0,
+              transition: "opacity 0.8s",
+              position: "absolute",
+              inset: 0,
+            }}
           />
-          {/* Fundo enquanto vídeo carrega */}
-          {!videoReady && <div className="hero-fallback-bg" />}
+          {!videoReady && (
+            <div
+              className="hero-fallback-bg"
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundColor: "#141210",
+              }}
+            />
+          )}
         </>
       )}
 
-      {/* Mobile: vídeo nativo (autoplay funciona melhor) */}
       {isMobile && (
         <video
           src="/hero-drone.mp4"
@@ -138,6 +144,13 @@ export function HeroSection() {
           loop
           preload="none"
           className="hero-video-mobile"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
         />
       )}
 
@@ -150,14 +163,24 @@ export function HeroSection() {
           <span className="tag-line" />
         </p>
 
+        {/* H1 Otimizado para SEO com animação cinematográfica */}
+        {/* H1 Gigante com animação de Máscara Cinematográfica */}
         <h1 className="hero-display">
-          <span className="display-line display-line-1">Construímos</span>
-          {/* "sonhos" com fundo escuro garantindo contraste */}
-          <span className="display-line display-line-2">
-            <em className="hero-em-sonhos">sonhos</em>
+          <span className="display-line-wrap">
+            <span className="display-line display-line-1">Erguemos o</span>
           </span>
-          <span className="display-line display-line-3">em pedra</span>
-          <span className="display-line display-line-4">e concreto.</span>
+          <span className="display-line-wrap">
+            {/* Adicionamos a classe line-alicerce aqui */}
+            <span className="display-line display-line-2 line-alicerce">
+              alicerce
+            </span>
+          </span>
+          <span className="display-line-wrap">
+            <span className="display-line display-line-3">do seu legado</span>
+          </span>
+          <span className="display-line-wrap">
+            <span className="display-line display-line-4">familiar.</span>
+          </span>
         </h1>
 
         <div className="hero-footer-row">

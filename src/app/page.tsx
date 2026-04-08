@@ -1,3 +1,4 @@
+import { Preloader } from "@/components/Preloader";
 import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { NumerosSection } from "@/components/NumerosSection";
@@ -14,6 +15,9 @@ import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
     <>
+      {/* Nossa cortina premium entra aqui! */}
+      <Preloader />
+
       <Navbar />
       <main>
         <HeroSection />

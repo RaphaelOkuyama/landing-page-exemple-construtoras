@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+  SheetDescription, // <-- ADICIONADO
+} from "@/components/ui/sheet";
 
 const LINKS = [
   { href: "#diferenciais", label: "Diferenciais" },
@@ -45,6 +51,12 @@ export function Navbar() {
           </button>
         </SheetTrigger>
         <SheetContent side="right" className="nav-sheet">
+          <SheetTitle className="sr-only">Menu de Navegação</SheetTitle>
+          {/* <-- ADICIONADO PARA SUMIR COM O ERRO --> */}
+          <SheetDescription className="sr-only">
+            Acesse as seções do site
+          </SheetDescription>
+
           <div className="nav-sheet-inner">
             <p className="nav-sheet-logo">ARCA</p>
             <ul className="nav-sheet-links">

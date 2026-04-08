@@ -830,10 +830,10 @@ nav.scrolled {
 }
 
 /* ════════════════════
-   OBRAS — EFEITO 3D DUPLO E FUNDO BEGE
+    OBRAS — EFEITO 3D DUPLO E FUNDO BEGE
 ════════════════════ */
 .obras-section {
-  background: var(--cream); /* Fundo claro Bege */
+  background: var(--cream);
   border-top: 1px solid var(--smoke);
 }
 .obras-inner {
@@ -859,8 +859,8 @@ nav.scrolled {
   font-size: 0.62rem;
   text-transform: uppercase;
   background: transparent;
-  border: 1px solid var(--stone); /* Borda escurecida para ler no fundo claro */
-  color: var(--charcoal); /* Texto escurecido */
+  border: 1px solid var(--stone);
+  color: var(--charcoal);
   cursor: pointer;
   transition: all 0.3s;
 }
@@ -916,33 +916,34 @@ nav.scrolled {
   transform-style: preserve-3d;
 }
 
-/* No seu globals.css, dentro da seção OBRAS, encontre e substitua estas duas classes: */
-
 /* 1. IMAGEM BASE (A foto inteira normal) */
 .obra-img-base {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* ADICIONADO: Transform inicial com escala de 1.1 para esconder marcas d'água nos cantos */
-  transform: scale(1.1); 
-  transform-origin: center center; /* Garante que o zoom seja para os lados uniformemente */
-  transition: filter 0.6s ease, transform 0.6s ease;
+  /* AS DUAS COMEÇAM COM O MESMO TAMANHO EXATO: 1.1 */
+  transform: scale(1.1) translateZ(0);
+  transform-origin: center center;
+  transition:
+    filter 0.6s ease,
+    transform 0.6s ease;
 }
 
-/* No hover, a imagem base mantém o zoom inicial mas escurece e afunda no eixo Z */
 .obra-card:hover .obra-img-base {
   filter: brightness(0.2) saturate(1.1);
-  /* MANTEMOS A ESCALA DE 1.1 (o zoom original) e apenas adicionamos o translateZ */
-  transform: translateZ(-10px) scale(1.1);
+  /* Vai para 1.15 e afunda */
+  transform: scale(1.15) translateZ(-10px);
 }
 
-/* 2. IMAGEM RECORTADA (Sem fundo, vai pular para frente) */
+/* 2. IMAGEM RECORTADA (Sem fundo) */
 .obra-img-cutout {
   width: 100%;
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transform: translateZ(0) scale(1);
+  /* AS DUAS COMEÇAM COM O MESMO TAMANHO EXATO: 1.1 */
+  transform: scale(1.1) translateZ(0);
+  transform-origin: center center;
   transition:
     opacity 0.3s ease,
     transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -950,7 +951,8 @@ nav.scrolled {
 
 .obra-card:hover .obra-img-cutout {
   opacity: 1;
-  transform: translateZ(30px) scale(1.05);
+  /* Acompanha o zoom de 1.15 do fundo, mas pula 40px para frente */
+  transform: scale(1.15) translateZ(40px);
 }
 
 .obra-overlay {
@@ -986,7 +988,7 @@ nav.scrolled {
 
 .obra-card:hover .obra-meta-top {
   opacity: 1;
-  transform: translateY(0) translateZ(50px);
+  transform: translateY(0) translateZ(60px);
 }
 
 .obra-year,
@@ -1007,7 +1009,7 @@ nav.scrolled {
 .obra-card:hover .obra-meta-bottom,
 .obra-meta-bottom.visible {
   opacity: 1;
-  transform: translateY(0) translateZ(60px);
+  transform: translateY(0) translateZ(70px);
 }
 
 .obra-tag-label {
@@ -1055,7 +1057,7 @@ nav.scrolled {
   background: radial-gradient(
     ellipse at center,
     rgba(28, 28, 26, 0.4) 0%,
-    /* Sombra ajustada para fundo claro */ transparent 70%
+    transparent 70%
   );
   filter: blur(6px);
   transform-origin: center bottom;
@@ -1078,8 +1080,8 @@ nav.scrolled {
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
-  border: 1px solid var(--stone); /* Borda escurecida */
-  color: var(--charcoal); /* Texto escuro */
+  border: 1px solid var(--stone);
+  color: var(--charcoal);
   padding: 0.85rem 2.2rem;
   font-size: 0.65rem;
   text-transform: uppercase;
@@ -1088,7 +1090,7 @@ nav.scrolled {
 }
 .cta-outline:hover {
   border-color: var(--gold);
-  color: var(--gold); /* Dourado no hover */
+  color: var(--gold);
 }
 
 /* ════════════════════
@@ -1396,8 +1398,8 @@ nav.scrolled {
   align-items: start;
 }
 .faq-header {
-  position: sticky;
-  top: 7rem;
+  position: relative;
+  margin-bottom: 2.5rem;
 }
 .faq-sub {
   font-size: 0.78rem;
@@ -1691,217 +1693,7 @@ nav.scrolled {
 }
 
 /* ════════════════════
-    PRELOADER
-════════════════════ */
-.preloader {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: var(--charcoal-2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-  transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1);
-}
-.preloader-out {
-  transform: translateY(-100%);
-}
-.preloader-scene {
-  position: relative;
-  width: 320px;
-  height: 380px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  transform: scale(0.65);
-  transform-origin: center bottom;
-}
-.crane-svg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-}
-.crane-cable {
-  transform-origin: 220px 80px;
-  animation: cableSway 3s ease-in-out infinite;
-}
-.crane-hook,
-.crane-load {
-  animation: hookBob 3s ease-in-out infinite;
-}
-.building-construct {
-  position: absolute;
-  right: 20px;
-  bottom: 16px;
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 2px;
-  z-index: 1;
-}
-.floor-block {
-  width: 80px;
-  height: 28px;
-  background: var(--charcoal);
-  border: 1px solid rgba(184, 151, 90, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: translateY(10px);
-  transition:
-    opacity 0.4s ease,
-    transform 0.4s ease;
-  position: relative;
-  overflow: hidden;
-}
-.floor-block.floor-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.floor-windows {
-  display: flex;
-  gap: 5px;
-}
-.window {
-  width: 10px;
-  height: 14px;
-  background: rgba(90, 120, 150, 0.5);
-  border-radius: 1px;
-  animation: windowFlicker 4s ease-in-out infinite;
-}
-.foundation-block {
-  width: 80px;
-  height: 10px;
-  background: var(--charcoal-2);
-  border: 1px solid rgba(184, 151, 90, 0.3);
-}
-.preloader-progress {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
-  width: 280px;
-}
-.preloader-bar {
-  width: 100%;
-  height: 1px;
-  background: rgba(250, 248, 244, 0.08);
-  position: relative;
-  overflow: visible;
-}
-.preloader-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background: linear-gradient(to right, var(--gold), var(--gold-light));
-  transition: width 0.15s linear;
-}
-.preloader-spark {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--gold-light);
-  box-shadow: 0 0 8px var(--gold);
-  transition: left 0.15s linear;
-}
-.preloader-labels {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.preloader-brand {
-  font-family: var(--font-c);
-  font-size: 0.8rem;
-  letter-spacing: 0.5em;
-  color: rgba(250, 248, 244, 0.4);
-}
-.preloader-pct {
-  font-family: var(--font-c);
-  font-size: 1.6rem;
-  color: var(--gold-light);
-}
-.preloader-sub {
-  font-size: 0.58rem;
-  color: rgba(250, 248, 244, 0.28);
-}
-
-@keyframes cableSway {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(1.5deg);
-  }
-}
-@keyframes hookBob {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-@keyframes windowFlicker {
-  0%,
-  90%,
-  100% {
-    background: rgba(90, 120, 150, 0.5);
-  }
-  93% {
-    background: rgba(255, 220, 100, 0.7);
-  }
-}
-@keyframes tractorEnter {
-  0% {
-    transform: translateX(-80px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-@keyframes cartPush {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(300px);
-    opacity: 0;
-  }
-}
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes scrollDown {
-  0% {
-    top: -26px;
-  }
-  100% {
-    top: 44px;
-  }
-}
-
-/* ════════════════════
-    RESPONSIVO
+    RESPONSIVO E CORREÇÕES MOBILE
 ════════════════════ */
 @media (max-width: 1024px) {
   .diferenciais-grid,
@@ -2006,11 +1798,6 @@ nav.scrolled {
     text-align: center;
   }
 
-  /* Ajuste no preloader em telas menores */
-  .preloader-scene {
-    transform: scale(0.55);
-  }
-
   /* PADRONIZAÇÃO DE RESPIRO MOBILE */
   .diferenciais-section,
   .obras-section,
@@ -2024,6 +1811,17 @@ nav.scrolled {
   .section-inner {
     padding: 0 5vw;
   }
+
+  /* Ajuste no novo preloader em telas menores */
+  .pl-center {
+    transform: translate(-50%, -60%) scale(0.75);
+  }
+  .pl-pct-num {
+    font-size: 4.5rem;
+  }
+  .pl-dot-grid {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
@@ -2032,5 +1830,447 @@ nav.scrolled {
   }
   .obra-card {
     aspect-ratio: 4/3;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   PRELOADER — NÍVEL AWWWARDS
+   Layout: grade de pontos + prédio + guindaste
+   + número gigante + barra fina + partículas canvas
+════════════════════════════════════════════════ */
+
+/* Wrapper principal */
+.pl-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0a0806;
+  overflow: hidden;
+  /* Saída: dois painéis se abrem como portas */
+  transition: none;
+}
+
+/* Saída: o preloader sobe como uma cortina */
+.pl-out {
+  animation: plCurtainUp 1.4s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+@keyframes plCurtainUp {
+  0% {
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+/* Canvas de partículas */
+.pl-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Linha de progresso no topo */
+.pl-line-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(250, 248, 244, 0.06);
+  z-index: 10;
+}
+.pl-line-fill {
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(184, 151, 90, 0.4),
+    #b8975a,
+    #d4b47a
+  );
+  transition: width 0.12s linear;
+  position: relative;
+}
+.pl-line-fill::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #d4b47a;
+  box-shadow:
+    0 0 8px #b8975a,
+    0 0 20px rgba(184, 151, 90, 0.6);
+}
+
+/* Cantos */
+.pl-corner-tl {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.pl-logo {
+  font-family: var(--font-c);
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  color: var(--warm-white);
+  animation: plFadeIn 0.8s ease 0.2s both;
+}
+.pl-tagline {
+  font-size: 0.52rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(250, 248, 244, 0.3);
+  animation: plFadeIn 0.8s ease 0.4s both;
+}
+
+.pl-corner-tr {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 10;
+  animation: plFadeIn 0.8s ease 0.3s both;
+}
+.pl-year {
+  font-size: 0.52rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(250, 248, 244, 0.25);
+}
+
+/* ── Centro: guindaste + prédio ── */
+.pl-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  z-index: 5;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  animation: plFadeIn 0.6s ease 0.1s both;
+}
+
+/* Guindaste SVG */
+.pl-crane-wrap {
+  position: relative;
+  width: 160px;
+  height: 300px;
+  flex-shrink: 0;
+}
+.pl-crane-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Animações do guindaste */
+.pl-cable {
+  transform-origin: 110px 58px;
+  animation: plCableSway 4s ease-in-out infinite;
+}
+@keyframes plCableSway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  33% {
+    transform: rotate(1.8deg);
+  }
+  66% {
+    transform: rotate(-1deg);
+  }
+}
+
+.pl-hook {
+  animation: plHookBob 4s ease-in-out infinite;
+}
+@keyframes plHookBob {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* ── Prédio sendo construído ── */
+.pl-building {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  /* O prédio "encosta" no guindaste */
+  margin-left: -8px;
+  padding-bottom: 0;
+}
+
+/* Cada andar */
+.pl-floor {
+  height: 22px;
+  background: #1e1c18;
+  border: 1px solid rgba(184, 151, 90, 0.08);
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* Entrada: cai de cima + fade */
+  opacity: 0;
+  transform: translateY(-12px) scaleY(0.5);
+  transition:
+    opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pl-floor::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(184, 151, 90, 0.18);
+}
+.pl-floor-in {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+}
+
+.pl-windows {
+  display: flex;
+  gap: 5px;
+  padding: 0 8px;
+}
+
+/* Janelas individuais */
+.pl-win {
+  width: 8px;
+  height: 11px;
+  background: rgba(40, 60, 80, 0.6);
+  border-radius: 1px;
+  transition: background 0.3s;
+}
+.pl-win-on {
+  animation: plWinGlow 5s ease-in-out infinite;
+}
+.pl-win:nth-child(2) {
+  animation-delay: 0.8s !important;
+}
+.pl-win:nth-child(3) {
+  animation-delay: 1.6s !important;
+}
+
+@keyframes plWinGlow {
+  0%,
+  70%,
+  100% {
+    background: rgba(40, 60, 80, 0.6);
+  }
+  75% {
+    background: rgba(230, 195, 100, 0.75);
+    box-shadow: 0 0 6px rgba(230, 195, 100, 0.4);
+  }
+  80% {
+    background: rgba(200, 170, 80, 0.5);
+  }
+}
+
+/* Laje / slab no topo de cada andar */
+.pl-slab {
+  position: absolute;
+  bottom: -2px;
+  left: -3px;
+  right: -3px;
+  height: 3px;
+  background: #2a2824;
+  border-left: 1px solid rgba(184, 151, 90, 0.12);
+  border-right: 1px solid rgba(184, 151, 90, 0.12);
+}
+
+/* Fundação */
+.pl-foundation {
+  height: 12px;
+  background: #2a2824;
+  border: 1px solid rgba(184, 151, 90, 0.15);
+}
+
+/* Solo */
+.pl-ground {
+  width: 130%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(184, 151, 90, 0.25),
+    transparent
+  );
+  margin-top: 2px;
+}
+
+/* ── Rodapé ── */
+.pl-footer {
+  position: absolute;
+  bottom: 3rem;
+  left: 2rem;
+  right: 2rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  animation: plFadeIn 0.8s ease 0.5s both;
+}
+
+/* Número percentual gigante */
+.pl-pct-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  overflow: hidden;
+}
+.pl-pct-num {
+  font-family: var(--font-c);
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--warm-white);
+  letter-spacing: -0.03em;
+  display: block;
+  transition: transform 0.1s linear;
+  /* Subtle text stroke */
+  -webkit-text-stroke: 1px rgba(250, 248, 244, 0.1);
+}
+.pl-pct-sym {
+  font-family: var(--font-c);
+  font-size: clamp(1.5rem, 3.5vw, 3rem);
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  align-self: flex-end;
+  margin-bottom: 0.4rem;
+}
+
+/* Barra e fase */
+.pl-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.pl-bar {
+  width: 100%;
+  height: 1px;
+  background: rgba(250, 248, 244, 0.07);
+  position: relative;
+  overflow: visible;
+}
+.pl-bar-fill {
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(184, 151, 90, 0.5),
+    #b8975a,
+    #d4b47a
+  );
+  transition: width 0.1s linear;
+  position: relative;
+}
+
+/* Faísca na ponta da barra */
+.pl-spark {
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e8c870;
+  box-shadow:
+    0 0 6px #b8975a,
+    0 0 14px rgba(184, 151, 90, 0.7),
+    0 0 28px rgba(184, 151, 90, 0.3);
+  animation: plSparkPulse 0.8s ease-in-out infinite alternate;
+}
+@keyframes plSparkPulse {
+  from {
+    box-shadow:
+      0 0 6px #b8975a,
+      0 0 14px rgba(184, 151, 90, 0.7);
+    transform: translateY(-50%) scale(1);
+  }
+  to {
+    box-shadow:
+      0 0 10px #d4b47a,
+      0 0 24px rgba(184, 151, 90, 0.9);
+    transform: translateY(-50%) scale(1.3);
+  }
+}
+
+/* Fase textual com animação de entrada */
+.pl-phase-wrap {
+  overflow: hidden;
+  height: 1.2rem;
+}
+.pl-phase {
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(250, 248, 244, 0.38);
+  animation: plPhaseIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes plPhaseIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Grade de pontos decorativa */
+.pl-dot-grid {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%;
+  height: 50%;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  padding: 3rem 2rem;
+  gap: 1.5rem;
+  pointer-events: none;
+}
+.pl-dot {
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(184, 151, 90, 0.6);
+}
+
+/* Animação base */
+@keyframes plFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

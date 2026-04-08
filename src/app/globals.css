@@ -1555,6 +1555,8 @@ nav.scrolled {
   background: rgba(184, 151, 90, 0.12) !important;
   color: var(--gold-light) !important;
 }
+/* Substitua o .btn-submit antigo por este bloco: */
+
 .btn-submit {
   position: relative !important;
   overflow: hidden !important;
@@ -1562,15 +1564,21 @@ nav.scrolled {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+  gap: 0.7rem !important;
   background: var(--gold) !important;
   color: var(--charcoal) !important;
   border: none !important;
+  border-radius: 0 !important;
   padding: 0.9rem 2.2rem !important;
+  font-family: var(--font-j) !important;
   font-size: 0.68rem !important;
   font-weight: 500 !important;
   letter-spacing: 0.2em !important;
   text-transform: uppercase !important;
   cursor: pointer !important;
+  transition:
+    background 0.3s,
+    transform 0.2s !important;
 }
 .btn-submit:hover:not(:disabled) {
   background: var(--gold-light) !important;
@@ -1611,6 +1619,26 @@ nav.scrolled {
 }
 .btn-submit[data-status="pushing"] .push-cart {
   animation: cartPush 1.7s ease-in forwards 0.8s;
+}
+
+@keyframes tractorEnter {
+  0% {
+    transform: translateX(-80px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes cartPush {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(300px);
+    opacity: 0;
+  }
 }
 
 /* ════════════════════

@@ -26,7 +26,7 @@ export function HeroSection() {
       if (bodyRef.current) {
         bodyRef.current.classList.add("is-mounted");
       }
-    }, 2500); // <-- MUDAMOS DE 100 PARA 2500 AQUI
+    }, 4500); // <-- MUDAMOS DE 100 PARA 2500 AQUI
     return () => clearTimeout(timer);
   }, []);
 

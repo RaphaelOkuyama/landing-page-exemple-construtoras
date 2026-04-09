@@ -27,7 +27,6 @@ const PHASES = [
 /* MÁGICA DE PERFORMANCE:
   Em vez de calcular aleatoriedade na hora de renderizar (o que irrita o React e quebra o SSR),
   nós predefinimos 20 valores "pseudo-aleatórios" de opacidade para a nossa grade de pontos.
-  Zero re-renders, zero lentidão, zero erros no console!
 */
 const DOT_OPACITIES = [
   0.12, 0.35, 0.08, 0.41, 0.22, 0.15, 0.38, 0.09, 0.27, 0.44, 0.18, 0.31, 0.06,
@@ -65,14 +64,22 @@ export function Preloader() {
 
     const spawnParticles = () => {
       const count = Math.random() < 0.3 ? 2 : 1;
+      const W = canvas.width;
+      const H = canvas.height;
+
+      // AJUSTE FIO DE PRUMO: Trazendo as faíscas mais para a direita no mobile!
+      let offsetX = W * 0.5; // Padrão no Desktop (50% da tela)
+      if (W <= 480) {
+        offsetX = W * 0.5; // Celular: ajustado para alinhar perfeitamente com a solda do prédio
+      } else if (W <= 768) {
+        offsetX = W * 0.45; // Tablet
+      }
 
       for (let i = 0; i < count; i++) {
-        const W = canvas.width;
-        const H = canvas.height;
         const isSpark = Math.random() < 0.25;
         particlesRef.current.push({
           id: particleId.current++,
-          x: W * 0.35 + Math.random() * W * 0.3,
+          x: offsetX + (Math.random() - 0.5) * (W * 0.25), // Espalha em torno do prédio
           y: H * 0.65 + Math.random() * H * 0.15,
           vx: (Math.random() - 0.5) * 1.2,
           vy: -(Math.random() * 1.5 + 0.4),
@@ -132,10 +139,8 @@ export function Preloader() {
 
     let current = 0;
     const interval = setInterval(() => {
-      // Easing: rápido até ~70%, desacelera no final
       const speed =
         current < 70 ? Math.random() * 3.5 + 1.5 : Math.random() * 1.2 + 0.4;
-
       current = Math.min(100, current + speed);
       const pct = Math.round(current);
 
@@ -157,11 +162,11 @@ export function Preloader() {
 
       if (current >= 100) {
         clearInterval(interval);
-        setTimeout(() => setStatus("done"), 300);
+        setTimeout(() => setStatus("done"), 1500);
         setTimeout(() => {
           setStatus("out");
           document.body.style.overflow = "";
-        }, 1600);
+        }, 3500);
       }
     }, 45);
 
@@ -291,7 +296,7 @@ export function Preloader() {
                       key={w}
                       className={`pl-win${visible ? " pl-win-on" : ""}`}
                       style={{
-                        animationDelay: `${(floorIdx * 3 + w) * 0.15}s`,
+                        animationDelay: `${0.1 + w * 0.1}s`,
                       }}
                     />
                   ))}

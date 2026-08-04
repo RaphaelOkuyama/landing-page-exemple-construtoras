@@ -102,8 +102,7 @@ landing-page-construtora/
 │   │   ├── obra1.png / obra1-cutout.png
 │   │   ├── ...
 │   │   └── sobre-foto.png
-│   ├── hero-drone.mp4           # Vídeo aéreo do hero
-│   └── video.mp4
+│   └── hero-drone.mp4           # Vídeo aéreo do hero
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx           # Fontes (Cormorant + Jost), metadata e Open Graph
@@ -221,7 +220,7 @@ Fontes: `--font-c` (Cormorant Garamond) para títulos, `--font-j` (Jost) para in
 
 - [ ] Integrar envio real do formulário de contato (EmailJS ou Resend)
 - [ ] Respeitar `prefers-reduced-motion` nas animações mais intensas
-- [ ] Comprimir `hero-drone.mp4` e remover assets não utilizados do `public/`
+- [ ] Comprimir `hero-drone.mp4` (4,8 MB) para reduzir o peso do hero
 
 ---
 

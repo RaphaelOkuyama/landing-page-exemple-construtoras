@@ -131,9 +131,7 @@ landing-page-construtora/
 │   │       ├── sheet.tsx
 │   │       └── textarea.tsx
 │   ├── hooks/
-│   │   ├── useScrollProgress.ts # Progresso de scroll (0–1) de um container
-│   │   ├── useVideoScrub.ts     # Scrub genérico por frames (legado)
-│   │   └── useHeroVideo.ts      # Loop ping-pong de vídeo em canvas (legado)
+│   │   └── useScrollProgress.ts # Progresso de scroll (0–1) de um container
 │   └── lib/
 │       └── utils.ts             # cn() — merge de classes Tailwind
 ├── components.json              # Configuração do shadcn/ui
@@ -143,7 +141,7 @@ landing-page-construtora/
 └── package.json
 ```
 
-> ℹ️ `useVideoScrub` e `useHeroVideo` foram substituídos por implementações inline em `ConstrucaoSection` e `HeroSection`, e permanecem no repositório apenas como referência.
+> ℹ️ O scrub de frames e o loop de vídeo em canvas são implementados inline em `ConstrucaoSection` e `HeroSection`, respectivamente — `useScrollProgress` é o único hook compartilhado.
 
 ---
 

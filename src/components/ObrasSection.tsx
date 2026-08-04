@@ -5,8 +5,8 @@ import Image from "next/image";
 
 const OBRAS = [
   {
-    imgBg: "/obras/obra1.png",
-    imgCutout: "/obras/obra1-cutout.png",
+    imgBg: "/obras/obra1.webp",
+    imgCutout: "/obras/obra1-cutout.webp",
     tag: "Residencial · Alphaville",
     name: "Casa Concreto Sunset",
     loc: "Alphaville, SP",
@@ -15,8 +15,8 @@ const OBRAS = [
     type: "Unifamiliar",
   },
   {
-    imgBg: "/obras/obra2.png",
-    imgCutout: "/obras/obra2-cutout.png",
+    imgBg: "/obras/obra2.webp",
+    imgCutout: "/obras/obra2-cutout.webp",
     tag: "Multifamiliar · Pinheiros",
     name: "Edifício Corten",
     loc: "Pinheiros, SP",
@@ -25,8 +25,8 @@ const OBRAS = [
     type: "Multifamiliar",
   },
   {
-    imgBg: "/obras/obra3.png",
-    imgCutout: "/obras/obra3-cutout.png",
+    imgBg: "/obras/obra3.webp",
+    imgCutout: "/obras/obra3-cutout.webp",
     tag: "Residencial · Guarujá",
     name: "Villa Praia Infinita",
     loc: "Guarujá, SP",
@@ -35,8 +35,8 @@ const OBRAS = [
     type: "Unifamiliar",
   },
   {
-    imgBg: "/obras/obra4.png",
-    imgCutout: "/obras/obra4-cutout.png",
+    imgBg: "/obras/obra4.webp",
+    imgCutout: "/obras/obra4-cutout.webp",
     tag: "Alto Padrão · Itaim Bibi",
     name: "The Veridian Residences",
     loc: "Itaim Bibi, SP",
@@ -45,8 +45,8 @@ const OBRAS = [
     type: "Multifamiliar",
   },
   {
-    imgBg: "/obras/obra5.png",
-    imgCutout: "/obras/obra5-cutout.png",
+    imgBg: "/obras/obra5.webp",
+    imgCutout: "/obras/obra5-cutout.webp",
     tag: "Residencial · Serra Negra",
     name: "Casa Pedra & Vidro",
     loc: "Serra Negra, SP",
@@ -55,8 +55,8 @@ const OBRAS = [
     type: "Unifamiliar",
   },
   {
-    imgBg: "/obras/obra6.png",
-    imgCutout: "/obras/obra6-cutout.png",
+    imgBg: "/obras/obra6.webp",
+    imgCutout: "/obras/obra6-cutout.webp",
     tag: "Residencial · Campos do Jordão",
     name: "Casa Floresta Verde",
     loc: "Campos do Jordão, SP",

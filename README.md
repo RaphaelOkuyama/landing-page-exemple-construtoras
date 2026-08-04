@@ -99,9 +99,9 @@ landing-page-construtora/
 │   ├── frames/                  # 63 frames .webp da sequência de construção
 │   │   └── frame_1.webp ... frame_63.webp
 │   ├── obras/                   # Portfólio (imagem base + cutout de cada obra)
-│   │   ├── obra1.png / obra1-cutout.png
+│   │   ├── obra1.webp / obra1-cutout.webp
 │   │   ├── ...
-│   │   └── sobre-foto.png
+│   │   └── sobre-foto.webp
 │   └── hero-drone.mp4           # Vídeo aéreo do hero
 ├── src/
 │   ├── app/
@@ -213,6 +213,7 @@ Fontes: `--font-c` (Cormorant Garamond) para títulos, `--font-j` (Jost) para in
 - **Sem aleatoriedade em render** — as opacidades da grade de pontos do preloader são pré-definidas para não quebrar o SSR
 - **Scroll com throttle via rAF** — `useScrollProgress` limita as atualizações a um frame por vez
 - **Listeners passivos** — eventos de scroll registrados com `{ passive: true }`
+- **Imagens em WebP** — todo o portfólio foi convertido de PNG para WebP com alpha preservado, reduzindo os assets de 78 MB para 5 MB (−93%)
 
 ---
 

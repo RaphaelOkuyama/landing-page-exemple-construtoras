@@ -30,7 +30,7 @@ export function SobreSection() {
           <div className="sobre-visual reveal">
             <div className="sobre-img-wrap">
               <Image
-                src="/obras/sobre-foto.png"
+                src="/obras/sobre-foto.webp"
                 alt="Residência ARCA de alto padrão"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
